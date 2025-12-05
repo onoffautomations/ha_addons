@@ -67,7 +67,7 @@ def ingress_check():
     return jsonify({
         'status': 'ok',
         'service': 'network_scanner',
-        'version': '2.0.3'
+        'version': '1.0.1'
     }), 200
 
 
