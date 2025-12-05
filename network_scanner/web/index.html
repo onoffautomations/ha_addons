@@ -718,6 +718,239 @@
             color: var(--text-secondary);
             font-size: 13px;
         }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            header {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+
+            .controls {
+                gap: 10px;
+            }
+
+            /* Scan Network button - full width on mobile */
+            #scanBtn {
+                width: 100%;
+                order: 1;
+                padding: 12px 15px;
+                font-size: 14px;
+                font-weight: 600;
+            }
+
+            button {
+                padding: 10px 15px;
+                font-size: 13px;
+            }
+
+            button.secondary {
+                flex: 1;
+                min-width: 0;
+            }
+
+            /* Theme toggle button */
+            #themeToggle {
+                order: 5;
+                flex: 0 0 auto;
+                min-width: 44px;
+                padding: 10px;
+            }
+
+            .search-box {
+                width: 100%;
+                min-width: 100%;
+                order: 10;
+            }
+
+            .toggle-container {
+                margin-left: 0;
+                width: 100%;
+                order: 11;
+                justify-content: space-between;
+                background: var(--bg-tertiary);
+                padding: 12px 15px;
+                border-radius: 6px;
+                border: 1px solid var(--border-color);
+            }
+
+            .stats {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 15px;
+            }
+
+            .stat-value {
+                font-size: 20px;
+            }
+
+            .stat-label {
+                font-size: 11px;
+            }
+
+            /* Mobile table - make it scrollable */
+            .devices-table {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            table {
+                min-width: 800px;
+            }
+
+            th, td {
+                padding: 10px 8px;
+                font-size: 13px;
+            }
+
+            th {
+                font-size: 11px;
+            }
+
+            .port-badge {
+                font-size: 10px;
+                padding: 2px 6px;
+            }
+
+            .action-dropdown {
+                width: 110px;
+                padding: 6px 8px;
+                font-size: 12px;
+            }
+
+            /* Subnet configuration */
+            div[style*="grid-template-columns: 1fr 1fr"] {
+                grid-template-columns: 1fr !important;
+            }
+
+            .subnet-config {
+                padding: 15px;
+            }
+
+            .subnet-inputs {
+                flex-direction: column;
+            }
+
+            .subnet-input {
+                min-width: 100%;
+            }
+
+            /* Modals */
+            .ssh-modal-content, .ping-modal-content {
+                width: 95%;
+                height: 90%;
+                max-height: 90%;
+            }
+
+            .protocol-modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+
+            .ssh-modal-header {
+                padding: 12px 15px;
+            }
+
+            .ssh-modal-title {
+                font-size: 14px;
+            }
+
+            .protocol-options {
+                flex-direction: column;
+            }
+
+            .protocol-link {
+                padding: 12px 15px;
+                font-size: 15px;
+            }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 18px;
+            }
+
+            #scanBtn {
+                padding: 12px 15px;
+                font-size: 13px;
+            }
+
+            button {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            button.secondary {
+                min-width: 0;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                padding: 12px;
+            }
+
+            .stat-value {
+                font-size: 18px;
+            }
+
+            .subnet-tag {
+                font-size: 12px;
+                padding: 5px 10px;
+            }
+
+            .toggle-label {
+                font-size: 12px;
+            }
+
+            table {
+                min-width: 700px;
+            }
+
+            th, td {
+                padding: 8px 6px;
+                font-size: 12px;
+            }
+        }
+
+        /* Landscape mobile orientation */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .ssh-modal-content, .ping-modal-content {
+                height: 95%;
+            }
+        }
+
+        /* Improve touch targets for mobile */
+        @media (hover: none) and (pointer: coarse) {
+            button, .action-dropdown, .port-badge, .toggle-switch {
+                min-height: 44px;
+                min-width: 44px;
+            }
+
+            .port-badge {
+                padding: 4px 10px;
+                margin: 3px;
+            }
+
+            .subnet-tag .remove {
+                padding: 4px 8px;
+                margin-left: 4px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1544,29 +1777,79 @@
             }
         }
 
-        // Theme toggle
-        function toggleTheme() {
+        // Theme system with auto/light/dark modes
+        let currentThemeMode = 'auto'; // 'auto', 'light', 'dark'
+
+        function getSystemTheme() {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+
+        function applyTheme(theme) {
             const body = document.body;
             const themeIcon = document.getElementById('themeIcon');
-            const isLightMode = body.classList.toggle('light-mode');
+            const themeToggle = document.getElementById('themeToggle');
 
-            // Update icon
-            themeIcon.textContent = isLightMode ? '🌙' : '☀️';
+            if (theme === 'light') {
+                body.classList.add('light-mode');
+                themeIcon.textContent = '🌙';
+                themeToggle.title = 'Theme: Light (click for Dark)';
+            } else {
+                body.classList.remove('light-mode');
+                themeIcon.textContent = '☀️';
+                themeToggle.title = 'Theme: Dark (click for Auto)';
+            }
+        }
+
+        function toggleTheme() {
+            const themeIcon = document.getElementById('themeIcon');
+            const themeToggle = document.getElementById('themeToggle');
+
+            // Cycle through: auto -> light -> dark -> auto
+            if (currentThemeMode === 'auto') {
+                currentThemeMode = 'light';
+                applyTheme('light');
+            } else if (currentThemeMode === 'light') {
+                currentThemeMode = 'dark';
+                applyTheme('dark');
+            } else {
+                currentThemeMode = 'auto';
+                const systemTheme = getSystemTheme();
+                applyTheme(systemTheme);
+                themeIcon.textContent = systemTheme === 'dark' ? '☀️' : '🌙';
+                themeToggle.title = 'Theme: Auto (click for Light)';
+            }
 
             // Save preference
-            localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+            localStorage.setItem('themeMode', currentThemeMode);
         }
 
         // Load saved theme on page load
         function loadTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            const themeIcon = document.getElementById('themeIcon');
+            const savedMode = localStorage.getItem('themeMode') || 'auto';
+            currentThemeMode = savedMode;
 
-            if (savedTheme === 'light') {
-                document.body.classList.add('light-mode');
-                themeIcon.textContent = '🌙';
+            if (currentThemeMode === 'auto') {
+                const systemTheme = getSystemTheme();
+                applyTheme(systemTheme);
+                const themeToggle = document.getElementById('themeToggle');
+                const themeIcon = document.getElementById('themeIcon');
+                themeIcon.textContent = systemTheme === 'dark' ? '☀️' : '🌙';
+                themeToggle.title = 'Theme: Auto (click for Light)';
+            } else if (currentThemeMode === 'light') {
+                applyTheme('light');
+            } else {
+                applyTheme('dark');
             }
         }
+
+        // Listen for system theme changes when in auto mode
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (currentThemeMode === 'auto') {
+                applyTheme(e.matches ? 'dark' : 'light');
+                const themeIcon = document.getElementById('themeIcon');
+                themeIcon.textContent = e.matches ? '☀️' : '🌙';
+            }
+        });
 
         // Close dropdowns when clicking outside
         document.addEventListener('click', function(e) {
