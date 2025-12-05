@@ -1,8 +1,8 @@
 name: Network Scanner
-version: "2.0.3"
+version: "1.0.0"
 slug: network_scanner
 description: Network scanner with web UI - scans local network where HA is installed
-url: https://github.com/onoffautomations/ha-network-scanner
+url: https://github.com/onoffautomations/ha_addons/tree/main/network_scanner#network-scanner-for-home-assistant
 arch:
   - armhf
   - armv7
