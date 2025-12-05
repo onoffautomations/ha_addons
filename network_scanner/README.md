@@ -5,8 +5,6 @@
 
 A network scanning addon for Home Assistant that discovers devices on your local network with a modern web interface accessible via side panel or direct access.
 
-![Network Scanner Icon](icon.png)
-
 ## Features
 
 - **Manual Network Scanning**: Click to scan your network on demand
