@@ -1,0 +1,32 @@
+name: Network Scanner
+version: "2.0.3"
+slug: network_scanner
+description: Network scanner with web UI - scans local network where HA is installed
+url: https://github.com/onoffautomations/ha-network-scanner
+arch:
+  - armhf
+  - armv7
+  - aarch64
+  - amd64
+  - i386
+init: false
+startup: application
+boot: auto
+ingress: true
+panel_icon: mdi:lan
+panel_title: Network Scanner
+panel_admin: false
+host_network: true
+hassio_api: true
+options:
+  scan_interval: 300
+  ports_to_scan: "22,80,443,8123"
+  web_port: 8099
+  enable_mac_vendor: true
+  enable_hostname_lookup: true
+schema:
+  scan_interval: int(60,3600)
+  ports_to_scan: str
+  web_port: int(1024,65535)
+  enable_mac_vendor: bool
+  enable_hostname_lookup: bool
