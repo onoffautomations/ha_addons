@@ -1,1 +1,3 @@
-repository.yaml
+name: "OnOff Automations Add-ons"
+url: "https://github.com/onoffautomations/ha-addons"
+maintainer: "OnOff Automations <support@onoffautomations.com>"
