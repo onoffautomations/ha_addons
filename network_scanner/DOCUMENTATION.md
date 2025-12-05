@@ -192,7 +192,7 @@ Health check endpoint for Home Assistant ingress.
 {
   "status": "ok",
   "service": "network_scanner",
-  "version": "2.0.3"
+  "version": "1.0.1"
 }
 ```
 
@@ -291,7 +291,7 @@ Health check endpoint for Home Assistant ingress.
 1. **Clear browser cache**: `Ctrl + Shift + R` (or `Cmd + Shift + R` on Mac)
 2. Try incognito/private window
 3. Check browser console (F12) for errors
-4. Verify version 2.0.3 in addon logs
+4. Verify version 1.0.1 in addon logs
 
 ### Direct Access Works, Ingress Doesn't
 
